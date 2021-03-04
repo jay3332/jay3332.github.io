@@ -1,4 +1,4 @@
-import flask
+import flask, flask_frozen
 from flask import request, jsonify
 
 app = flask.Flask(__name__)
@@ -19,4 +19,5 @@ def test():
         "message": "Test"
     })
 
-app.run()
+if __name__ == '__main__':
+    flask_frozen.Freezer(app).freeze()
