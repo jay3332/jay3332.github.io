@@ -20,6 +20,7 @@ body.light {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 15px;
 }
 
 #banner::before {
@@ -78,7 +79,7 @@ body.light {
 }
 
 #banner-buttons .banner-button img {
-    filter: brightness(100);
+    filter: brightness(100) drop-shadow(0px 0px 5px #000);
     width: 42px;
     opacity: 0.5;
     margin-bottom: 60px;
