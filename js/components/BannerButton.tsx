@@ -6,7 +6,7 @@ interface BannerButtonProps {
     alt: string;
 };
 
-export default class BannerButton extends React.Component {
+export default class BannerButton extends React.Component<BannerButtonProps> {
     props: BannerButtonProps;
 
     constructor(props: BannerButtonProps) {
