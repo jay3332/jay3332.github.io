@@ -4,9 +4,10 @@ import * as React from 'react';
 export default function NavigationBar() {
     return (
         <span id="nav-bar-items">
-            <img src='./assets/jay3332.png' alt='jay3332' />
+            <img src='/assets/jay3332.png' alt='jay3332' />
             <ul id="nav-bar-buttons">
                 <NavigationBarButton name="Home" href="/" />
+                <NavigationBarButton name="Projects" href="/projects.html" />
                 <NavigationBarButton name="Back To Top" backToTop={true} />
             </ul>
         </span>
