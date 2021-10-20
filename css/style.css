@@ -175,8 +175,9 @@ header {
 
 footer {
     background-color: rgba(34, 35, 36, 0.7);
+    position: absolute;
     padding: 24px;
-    bottom: 0;
+    bottom: -24px;
     left: 0;
     right: 0;
 }
