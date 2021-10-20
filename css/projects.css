@@ -106,5 +106,6 @@
 }
 
 .tooltip:hover .tooltip-content {
-    display: initial !important;
+    display: inline-flex !important;
+    align-self: center !important;
 }
