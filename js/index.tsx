@@ -1,5 +1,6 @@
 import BannerButtons from './ui/BannerButtons';
 import NavigationBar from './ui/NavigationBar';
+import ProjectCards from './ui/ProjectCards';
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';  // Fixes linter errors
 
@@ -12,6 +13,11 @@ if (element = document.getElementById('banner-buttons')) ReactDOM.render(
 
 if (element = document.getElementById('nav-bar')) ReactDOM.render(
     <NavigationBar />,
+    element
+);
+
+if (element = document.getElementById('project-cards')) ReactDOM.render(
+    <ProjectCards />,
     element
 );
 

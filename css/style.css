@@ -6,6 +6,11 @@
     position: relative;
 }
 
+html, body {
+    min-height: 100vh;
+    margin: 0;
+}
+
 body {
     background-color: #1a2129;
 }
@@ -103,6 +108,7 @@ header {
 
 #nav-bar {
     background-color: rgb(48, 68, 85, 0.47);
+    backdrop-filter: blur(5px) brightness(0.9);
     box-shadow: 0px 0px 12px #000;
     overflow: hidden;
     width: 100%;
@@ -128,11 +134,10 @@ header {
     list-style: none;
     display: flex;
     justify-content: center;
-    padding-right: 5%;
 }
 
 #nav-bar-items #nav-bar-buttons .nav-bar-button {
-    padding: 4px 20%;
+    padding: 4px 30px;
     white-space: nowrap; 
     z-index: 1000;
 }
@@ -166,4 +171,12 @@ header {
     position: relative;
     opacity: 1;
     transition: opacity 0.7s, right 0.8s ease;
+}
+
+footer {
+    background-color: rgba(34, 35, 36, 0.7);
+    padding: 24px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
