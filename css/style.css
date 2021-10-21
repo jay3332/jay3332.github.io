@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Manrope&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Manrope&family=Fira+Code&display=swap');
 
 * {
     transition: background-color 0.5s ease;
-    font-family: 'Source Sans Pro';
+    font-family: 'Source Sans Pro', sans-serif;
     position: relative;
 }
 
@@ -20,9 +20,24 @@ body.light {
     background-color: #d4e8ff;
 }
 
+a {
+    color: #d4e8ff;
+    transition: color 0.5s ease;
+}
+
+a:hover {
+    color: #a6cfff;
+}
+
 header {
     position: fixed;
     z-index: 10000;
+}
+
+code, code * {
+    font-family: 'Fira Code', monospace !important;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 #banner {
@@ -179,7 +194,7 @@ footer {
     color: #fff;
     position: absolute;
     padding: 24px;
-    bottom: -128px;
+    bottom: -68px;
     left: 0;
     right: 0;
 }

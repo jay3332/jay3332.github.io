@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import marked from 'marked';
 
 export const ProjectCardLanguages = {
     python: {name: 'Python', icon: 'python.png'},
@@ -22,6 +24,7 @@ export interface ProjectCardProps {
     date: Date;
     description?: string;
     repository?: string;
+    branch?: string;
     icon?: string;
     languages?: {
         name: string,
@@ -30,12 +33,84 @@ export interface ProjectCardProps {
     tags?: Tag[];
 }
 
-export class ProjectCard extends React.Component<ProjectCardProps> {
+interface ProjectCardState {
+    cachedReadme?: string;
+    cachedHasReadme?: boolean;
+    showingReadme: boolean;
+}
+
+export class ProjectCard extends React.Component<ProjectCardProps, ProjectCardState> {
     props: ProjectCardProps;
+    state: ProjectCardState;
 
     constructor(props: ProjectCardProps) {
         super(props);
         this.props = props;
+        this.state = {
+            showingReadme: false
+        };
+
+        this.onReadmeClick = this.onReadmeClick.bind(this);
+    }
+
+    componentDidMount() {
+        this.hasReadme().then(has => this.setState({
+            cachedHasReadme: has,
+            showingReadme: false,
+        }))
+    }
+
+    get repositoryURL(): string | undefined {
+        if (this.props.repository) return `https://github.com/${this.props.repository}`;
+    }
+
+    get readmeURL(): string | undefined {
+        if (this.props.repository) return `https://raw.githubusercontent.com/${this.props.repository}/${this.branch}/README.md`;
+    }
+
+    get branch(): string {
+        return this.props.branch || 'master';
+    }
+
+    async _hasReadme(): Promise<boolean> {
+        if (!this.readmeURL) 
+            return false
+        if (this.state.cachedHasReadme != null)
+            return false
+
+        try {
+            // @ts-ignore
+            const response = await fetch({ url: this.readmeURL, method: 'HEAD' });
+            if (response.status != 200)
+                return false;
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    async hasReadme(): Promise<boolean> {
+        const result = await this._hasReadme();
+        this.state.cachedHasReadme = result;
+        return result;
+    }
+
+    async readme(): Promise<string | undefined> {
+        if (!this.readmeURL) 
+            return
+        if (this.state.cachedReadme)
+            return this.state.cachedReadme;
+        try {
+            const response = await fetch(this.readmeURL);
+            if (response.status != 200)
+                return;
+    
+            let readme = this.state.cachedReadme = await response.text();
+            return readme;
+        } catch (_) {
+            return
+        }
     }
 
     render() {
@@ -50,12 +125,10 @@ export class ProjectCard extends React.Component<ProjectCardProps> {
                             <span className="project-card-languages">
                                 {this.props.languages?.map(
                                     ({ name, icon }) => (
-                                        <span className="project-card-language tooltip">
+                                        <div className="project-card-language tooltip">
                                             <img src={`/assets/language-icons/${icon}`} alt={name} />
-                                            <span className="tooltip-content">
-                                                {name}
-                                            </span>
-                                        </span>
+                                            <p className="tooltip-content">{name}</p>
+                                        </div>
                                     )
                                 )}
                             </span>
@@ -70,17 +143,58 @@ export class ProjectCard extends React.Component<ProjectCardProps> {
                         <p className="project-card-description">
                             {this.props.description || "This is a project has no description."}
                         </p>
+                        {this.state.cachedHasReadme ? (
+                            <div>
+                                <div className="project-card-readme"></div>
+                                <p className="view-readme" onClick={this.onReadmeClick}>{'\u25bc'} View README</p>
+                            </div>
+                        ) : undefined}
                         {this.props.repository ? (
-                            <a className="project-card-repository" href={this.props.repository}>
-                                View Repository
+                            <a className="project-card-repository" href={this.repositoryURL}>
+                                <div className="project-card-repository-container">
+                                    <img src="/assets/github.svg" />
+                                    <p>View Repository</p>
+                                </div>
                             </a>
                         ) : undefined}
                     </div>
                     <div className="project-card-icon">
-                        <img src={this.props.icon} alt={this.props.name} />
+                        {this.props.icon ? (
+                            <img src={this.props.icon} alt={this.props.name} />
+                        ) : undefined}
                     </div>
                 </div>
             </div>
         )
+    }
+
+    onReadmeClick() {
+        this.state.showingReadme ? this._readmeDisable() : this._readmeEnable();
+    }
+
+    _readmeEnable() {
+        this.state.showingReadme = true;
+
+        const element = ReactDOM.findDOMNode(this) as Element;
+        const container = element.getElementsByClassName('project-card-readme')[0];
+            
+        container.innerHTML = 'Loading...';
+
+        this.readme().then(res => {
+            if (!res) res = 'README currently unavailable.';
+            container.innerHTML = marked(res);
+
+            element.getElementsByClassName('view-readme')[0].innerHTML = "\u25b2 Hide README";
+            // @ts-ignore
+            hljs.highlightAll()
+        })
+    }
+
+    _readmeDisable() {
+        this.state.showingReadme = false;
+
+        const element = ReactDOM.findDOMNode(this) as Element;
+        element.getElementsByClassName('project-card-readme')[0].innerHTML = '';
+        element.getElementsByClassName('view-readme')[0].innerHTML = "\u25bc View README";
     }
 }
