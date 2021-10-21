@@ -24,6 +24,7 @@ const cards: ProjectCardProps[] = [
             A small utility that aids in rendering unicode emojis onto an image
             using Pillow, a fork of Python's official imaging library.`,
         repository: 'jay3332/pilmoji',
+        branch: '2.0',
         languages: [Languages.python],
         tags: [],
     },
@@ -38,11 +39,35 @@ const cards: ProjectCardProps[] = [
         tags: [],
     },
     {
-        name: 'FerrisChat web client',
+        name: 'FerrisChat Web Client',
         date: new Date(2021, 7, 30),
         description: 'A web client for FerrisChat.',
         repository: 'FerrisChat/WebClient',
         languages: [Languages.typescript, Languages.react, Languages.web],
+        tags: [],
+    },
+    {
+        name: 'js-cord',
+        date: new Date(2021, 2, 15),
+        description: "A JavaScript wrapper around Discord's API.",
+        repository: 'jay3332/js-cord',
+        languages: [Languages.nodejs, Languages.typescript],
+        tags: [],
+    },
+    {
+        name: 'expr.py',
+        date: new Date(2021, 6, 1),
+        description: 'A safe yet fast math expression evaluator made for Python.',
+        repository: 'jay3332/expr.py',
+        languages: [Languages.python],
+        tags: [],
+    },
+    {
+        name: 'UNO Discord Bot',
+        date: new Date(2021, 7, 11),
+        description: 'An experimental Discord bot that emulates the UNO card game.',
+        repository: 'jay3332/UNO-Bot',
+        languages: [Languages.python],
         tags: [],
     }
 ]
