@@ -24,6 +24,7 @@ export interface ProjectCardProps {
     date: Date;
     description?: string;
     repository?: string;
+    rst?: boolean;
     branch?: string;
     icon?: string;
     languages?: {
@@ -65,7 +66,8 @@ export class ProjectCard extends React.Component<ProjectCardProps, ProjectCardSt
     }
 
     get readmeURL(): string | undefined {
-        if (this.props.repository) return `https://raw.githubusercontent.com/${this.props.repository}/${this.branch}/README.md`;
+        const ext = this.props.rst ? 'rst' : 'md';
+        if (this.props.repository) return `https://raw.githubusercontent.com/${this.props.repository}/${this.branch}/README.${ext}`;
     }
 
     get branch(): string {
@@ -182,7 +184,16 @@ export class ProjectCard extends React.Component<ProjectCardProps, ProjectCardSt
 
         this.readme().then(res => {
             if (!res) res = 'README currently unavailable.';
-            container.innerHTML = marked(res);
+            if (this.props.rst) {
+                fetch('https://rst2html.jay3332.repl.co/convert', {
+                    method: 'POST',
+                    body: JSON.stringify({ content: res }),
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                    .then(r => r.text())
+                    .then(r => container.innerHTML = r);
+            }
+            else container.innerHTML = marked(res);
 
             element.getElementsByClassName('view-readme')[0].innerHTML = "\u25b2 Hide README";
             // @ts-ignore

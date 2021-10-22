@@ -34,6 +34,7 @@ const cards: ProjectCardProps[] = [
         description: `
             discord.py was an extremely popular Discord API wrapper, written in of course, Python.
             It has since been archived, therefore this is my own, maintained fork of discord.py.`,
+        rst: true,
         repository: 'jay3332/discord.py',
         languages: [Languages.python],
         tags: [],
@@ -51,6 +52,7 @@ const cards: ProjectCardProps[] = [
         date: new Date(2021, 2, 15),
         description: "A JavaScript wrapper around Discord's API.",
         repository: 'jay3332/js-cord',
+        branch: 'rewrite',
         languages: [Languages.nodejs, Languages.typescript],
         tags: [],
     },
@@ -67,6 +69,14 @@ const cards: ProjectCardProps[] = [
         date: new Date(2021, 7, 11),
         description: 'An experimental Discord bot that emulates the UNO card game.',
         repository: 'jay3332/UNO-Bot',
+        languages: [Languages.python],
+        tags: [],
+    },
+    {
+        name: 'tag-formatter',
+        date: new Date(2021, 3, 23),
+        description: 'Extensive user-inputted format strings for Python.',
+        repository: 'jay3332/tag-formatter',
         languages: [Languages.python],
         tags: [],
     }

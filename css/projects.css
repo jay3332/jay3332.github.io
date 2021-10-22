@@ -131,6 +131,10 @@
     opacity: 0.9;
 }
 
+.project-card-readme img {
+    max-width: 50%;
+}
+
 .tooltip {
     display: inline-flex;
 }
